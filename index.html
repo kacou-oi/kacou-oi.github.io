@@ -4,14 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebSuite Platform - Installation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/static/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purple: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-lg p-8">
         <div class="text-center mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">WebSuite Platform</h1>
             <p class="text-gray-600">Installation et configuration</p>
+        </div>
+        
+        <!-- Indicateur d'étapes (3 étapes) -->
+        <div class="flex items-center justify-center mb-8">
+            <div class="flex items-center">
+                <div id="step-1-indicator" class="flex items-center justify-center w-10 h-10 rounded-full bg-purple-600 text-white font-semibold">
+                    1
+                </div>
+                <div id="step-1-line" class="w-12 h-1 bg-gray-300 mx-1"></div>
+                <div id="step-2-indicator" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold">
+                    2
+                </div>
+                <div id="step-2-line" class="w-12 h-1 bg-gray-300 mx-1"></div>
+                <div id="step-3-indicator" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 text-gray-600 font-semibold">
+                    3
+                </div>
+            </div>
         </div>
         
         <!-- Vérification installation existante -->
@@ -30,6 +69,10 @@
         
         <!-- Formulaire d'installation -->
         <form id="install-form" class="space-y-6">
+            <!-- Étape 1: Configuration de base -->
+            <div id="step-1" class="step-content">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Étape 1: Configuration de base</h2>
+                
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <p class="text-sm text-blue-800">
                     <strong>Prérequis:</strong> Vous devez avoir un GitHub Personal Access Token avec les permissions: <code class="bg-blue-100 px-1 rounded">repo</code>, <code class="bg-blue-100 px-1 rounded">workflow</code>, <code class="bg-blue-100 px-1 rounded">write:packages</code>
@@ -126,10 +169,189 @@
                 <p class="text-xs text-gray-500 mt-1">Si vous avez configuré un domaine personnalisé pour GitHub Pages</p>
             </div>
             
+                <button 
+                    type="button" 
+                    id="btn-next-step"
+                    class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                >
+                    Suivant →
+                </button>
+            </div>
+            
+            <!-- Étape 2: Identité du site -->
+            <div id="step-2" class="step-content hidden">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Étape 2: Identité du site</h2>
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Note:</strong> Ces informations peuvent être modifiées plus tard dans le dashboard. Certains champs sont optionnels.
+                    </p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Nom du Site
+                    </label>
+                    <input 
+                        type="text" 
+                        id="site_name" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Mon Site WebSuite"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Nom qui apparaîtra dans le dashboard et sur le site</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Auteur
+                    </label>
+                    <input 
+                        type="text" 
+                        id="author" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Votre Nom"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Nom de l'auteur ou administrateur du site</p>
+                </div>
+                
+                <div class="border-t pt-4 mt-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">SEO - Métadonnées</h3>
+                    <p class="text-xs text-gray-500 mb-4">Ces informations sont utilisées pour le référencement (SEO) de votre site</p>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Meta Title
+                        </label>
+                        <input 
+                            type="text" 
+                            id="meta_title" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Titre SEO de votre site"
+                            maxlength="60"
+                        >
+                        <p class="text-xs text-gray-500 mt-1"><span id="meta_title_length">0</span>/60 caractères</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Meta Description
+                        </label>
+                        <textarea 
+                            id="meta_description" 
+                            rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Description SEO de votre site"
+                            maxlength="160"
+                        ></textarea>
+                        <p class="text-xs text-gray-500 mt-1"><span id="meta_description_length">0</span>/160 caractères</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Meta Keywords
+                        </label>
+                        <input 
+                            type="text" 
+                            id="meta_keywords" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="mots-clés, séparés, par, des, virgules"
+                        >
+                        <p class="text-xs text-gray-500 mt-1">Mots-clés séparés par des virgules (ex: CMS, Blog, WebSuite)</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button 
+                        type="button" 
+                        id="btn-prev-step-2"
+                        class="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                    >
+                        ← Précédent
+                    </button>
+                    <button 
+                        type="button" 
+                        id="btn-next-step-2"
+                        class="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                    >
+                        Suivant →
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Étape 3: Configuration des flux RSS -->
+            <div id="step-3" class="step-content hidden">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Étape 3: Configuration des flux (optionnel)</h2>
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Note:</strong> Vous pourrez modifier ces flux plus tard dans le dashboard. Laissez les champs vides si vous ne souhaitez pas les configurer maintenant.
+                    </p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Flux RSS Blog (Substack, WordPress, etc.)
+                    </label>
+                    <input 
+                        type="url" 
+                        id="blog_rss_url" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="https://example.substack.com/feed"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">URL du flux RSS de votre blog</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Flux RSS YouTube
+                    </label>
+                    <input 
+                        type="url" 
+                        id="youtube_rss_url" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="https://www.youtube.com/feeds/videos.xml?channel_id=..."
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Format: <code class="bg-gray-100 px-1 rounded">https://www.youtube.com/feeds/videos.xml?channel_id=VOTRE_CHANNEL_ID</code></p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Flux RSS Podcast
+                    </label>
+                    <input 
+                        type="url" 
+                        id="podcast_rss_url" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="https://example.com/podcast.rss"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">URL du flux RSS de votre podcast</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Flux RSS Événements (Meetup, etc.)
+                    </label>
+                    <input 
+                        type="url" 
+                        id="events_rss_url" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="https://www.meetup.com/group-name/events/rss"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">URL du flux RSS de vos événements</p>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button 
+                        type="button" 
+                        id="btn-prev-step-3"
+                        class="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                    >
+                        ← Précédent
+                    </button>
             <button 
                 type="submit" 
                 id="install-btn"
-                class="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        class="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
                 <span id="install-btn-text">Installer WebSuite Platform</span>
                 <span id="install-btn-loading" class="hidden">
@@ -140,6 +362,8 @@
                     Installation en cours...
                 </span>
             </button>
+                </div>
+            </div>
         </form>
         
         <!-- Résultat -->
@@ -192,6 +416,89 @@
     
     <script>
         const MAITRE_URL = 'https://installer.websuite.cc'; // À configurer avec l'URL réelle du Worker Maître
+        let currentStep = 1;
+        
+        // Compteurs de caractères pour SEO
+        document.getElementById('meta_title')?.addEventListener('input', (e) => {
+            document.getElementById('meta_title_length').textContent = e.target.value.length;
+        });
+        
+        document.getElementById('meta_description')?.addEventListener('input', (e) => {
+            document.getElementById('meta_description_length').textContent = e.target.value.length;
+        });
+        
+        // Fonction pour mettre à jour les indicateurs d'étapes
+        function updateStepIndicators(step) {
+            const steps = [1, 2, 3];
+            steps.forEach((s) => {
+                const indicator = document.getElementById(`step-${s}-indicator`);
+                const line = document.getElementById(`step-${s}-line`);
+                
+                if (s < step) {
+                    // Étapes complétées
+                    indicator.classList.remove('bg-gray-300', 'text-gray-600', 'bg-purple-600', 'text-white');
+                    indicator.classList.add('bg-green-500', 'text-white');
+                    if (line) {
+                        line.classList.remove('bg-gray-300');
+                        line.classList.add('bg-green-500');
+                    }
+                } else if (s === step) {
+                    // Étape actuelle
+                    indicator.classList.remove('bg-gray-300', 'text-gray-600', 'bg-green-500');
+                    indicator.classList.add('bg-purple-600', 'text-white');
+                    if (line) {
+                        line.classList.remove('bg-green-500');
+                        line.classList.add('bg-gray-300');
+                    }
+                } else {
+                    // Étapes futures
+                    indicator.classList.remove('bg-purple-600', 'text-white', 'bg-green-500');
+                    indicator.classList.add('bg-gray-300', 'text-gray-600');
+                    if (line) {
+                        line.classList.remove('bg-green-500');
+                        line.classList.add('bg-gray-300');
+                    }
+                }
+            });
+        }
+        
+        // Navigation étape 1 → 2
+        document.getElementById('btn-next-step').addEventListener('click', () => {
+            const form = document.getElementById('install-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            currentStep = 2;
+            updateStepIndicators(2);
+        });
+        
+        // Navigation étape 2 → 3
+        document.getElementById('btn-next-step-2').addEventListener('click', () => {
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            currentStep = 3;
+            updateStepIndicators(3);
+        });
+        
+        // Navigation étape 2 → 1
+        document.getElementById('btn-prev-step-2').addEventListener('click', () => {
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-1').classList.remove('hidden');
+            currentStep = 1;
+            updateStepIndicators(1);
+        });
+        
+        // Navigation étape 3 → 2
+        document.getElementById('btn-prev-step-3').addEventListener('click', () => {
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            currentStep = 2;
+            updateStepIndicators(2);
+        });
         
         // Détecter automatiquement GitHub username et repo depuis l'URL
         function detectGitHubInfo() {
@@ -384,6 +691,9 @@
         
         // Pré-remplir les champs GitHub
         prefillGitHubFields();
+        
+        // Initialiser les indicateurs d'étapes
+        updateStepIndicators(1);
     </script>
 </body>
 </html>
