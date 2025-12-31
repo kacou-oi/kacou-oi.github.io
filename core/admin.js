@@ -129,7 +129,7 @@ async function checkAuth() {
 
     const authKey = localStorage.getItem('websuite_auth');
     if (!authKey) {
-        window.location.href = '/admin';
+        window.location.href = '/admin/index.html';
         return;
     }
 
@@ -141,10 +141,10 @@ async function checkAuth() {
         const data = await res.json();
         if (!data.authenticated) {
             localStorage.removeItem('websuite_auth');
-            window.location.href = '/admin';
+            window.location.href = '/admin/index.html';
         }
     } catch (e) {
-        window.location.href = '/admin';
+        window.location.href = '/admin/index.html';
     }
 }
 
