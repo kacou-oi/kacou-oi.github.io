@@ -1,14 +1,11 @@
 {
-  "backendUrl": "",
+  "backendUrl": "https://kacou-oi-websuite-worker.stackpages.workers.dev",
   "siteName": "",
   "author": "",
   "blogRssUrl": "",
   "youtubeRssUrl": "",
-  "frontendBuilderUrl": "",
   "podcastFeedUrl": "",
   "eventsRssUrl": "",
-  "wstdStagingUrl": "",
-  "analyticsEmbedUrl": "",
   "seo": {
     "metaTitle": "",
     "metaDescription": "",
