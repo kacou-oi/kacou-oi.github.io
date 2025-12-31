@@ -564,6 +564,24 @@
         
         // Vérifier si déjà installé
         async function checkInstallation() {
+            // Vérifier d'abord config.json
+            try {
+                const configRes = await fetch('/config.json');
+                if (configRes.ok) {
+                    const config = await configRes.json();
+                    if (config.backendUrl) {
+                        document.getElementById('check-installation').classList.remove('hidden');
+                        document.getElementById('worker-url').textContent = config.backendUrl;
+                        document.getElementById('install-form').classList.add('hidden');
+                        localStorage.setItem('api_base_url', config.backendUrl);
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('config.json non trouvé');
+            }
+            
+            // Fallback sur localStorage
             const workerUrl = localStorage.getItem('websuite_worker_url');
             if (workerUrl) {
                 document.getElementById('check-installation').classList.remove('hidden');
