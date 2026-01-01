@@ -14,3 +14,9 @@ Thumbs.db
 
 # Worker bundle (généré, ne pas versionner)
 _worker.js
+
+# Documentation générée (fichiers MD temporaires)
+DEPLOYMENT-EXPLANATION.md
+API-vs-ROUTING.md
+RSS-FEEDS-CONFIG.md
+CLIENT-SIDE-ROUTING.md
