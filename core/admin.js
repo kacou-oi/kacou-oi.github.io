@@ -26,11 +26,23 @@ async function loadStaticConfig() {
                 globalConfig.backendUrl = config.backendUrl;
                 // Sync with localStorage for backward compatibility
                 localStorage.setItem('api_base_url', config.backendUrl);
+                console.log('[loadStaticConfig] Loaded backendUrl from config.json:', config.backendUrl);
+            } else {
+                console.warn('[loadStaticConfig] config.json loaded but backendUrl is missing');
             }
+            globalConfig.loaded = true;
+        } else {
+            console.warn('[loadStaticConfig] Failed to load /config.json:', response.status, response.statusText);
             globalConfig.loaded = true;
         }
     } catch (e) {
-        console.warn('Could not load /config.json:', e);
+        console.warn('[loadStaticConfig] Could not load /config.json:', e);
+        // Fallback: try to get from localStorage
+        const storedUrl = localStorage.getItem('api_base_url');
+        if (storedUrl) {
+            globalConfig.backendUrl = storedUrl;
+            console.log('[loadStaticConfig] Using backendUrl from localStorage:', storedUrl);
+        }
         globalConfig.loaded = true; // Mark as loaded even if failed (to avoid infinite retries)
     }
 }
