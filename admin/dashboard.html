@@ -1744,18 +1744,10 @@
                     throw new Error('Non authentifié. Veuillez vous reconnecter.');
                 }
                 
-                // Utiliser buildApiUrl si disponible, sinon utiliser l'URL directe
-                let apiUrl = '/api/env-vars';
-                if (typeof window.buildApiUrl === 'function') {
-                    apiUrl = window.buildApiUrl('/api/env-vars');
-                } else {
-                    // Essayer de construire l'URL de base si elle est en localStorage
-                    const baseUrl = localStorage.getItem('api_base_url');
-                    if (baseUrl) {
-                        const cleanBase = baseUrl.replace(/\/$/, '');
-                        apiUrl = `${cleanBase}/api/env-vars`;
-                    }
-                }
+                // Utiliser buildApiUrl qui charge depuis config.json
+                const apiUrl = typeof window.buildApiUrl === 'function' 
+                    ? window.buildApiUrl('/api/env-vars')
+                    : '/api/env-vars';
                 
                 console.log('[loadServicesDirectly] Fetching from:', apiUrl);
                 
@@ -1818,7 +1810,7 @@
         async function logout() {
             // await fetch('/api/logout'); // Optional: Call backend logout if needed
             localStorage.removeItem('websuite_auth');
-            localStorage.removeItem('api_base_url'); // Clear remote worker URL
+            // Plus besoin de localStorage, tout est dans config.json maintenant
             window.location.href = '/admin';
         }
     </script>

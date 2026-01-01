@@ -10,12 +10,6 @@ let globalConfig = {
     loaded: false
 };
 
-// Initialize from localStorage as fallback (in case config.json is not loaded yet)
-const storedUrl = localStorage.getItem('api_base_url');
-if (storedUrl) {
-    globalConfig.backendUrl = storedUrl;
-}
-
 // Load static config.json
 async function loadStaticConfig() {
     try {
@@ -24,25 +18,17 @@ async function loadStaticConfig() {
             const config = await response.json();
             if (config.backendUrl) {
                 globalConfig.backendUrl = config.backendUrl;
-                // Sync with localStorage for backward compatibility
-                localStorage.setItem('api_base_url', config.backendUrl);
                 console.log('[loadStaticConfig] Loaded backendUrl from config.json:', config.backendUrl);
             } else {
                 console.warn('[loadStaticConfig] config.json loaded but backendUrl is missing');
             }
             globalConfig.loaded = true;
         } else {
-            console.warn('[loadStaticConfig] Failed to load /config.json:', response.status, response.statusText);
+            console.error('[loadStaticConfig] Failed to load /config.json:', response.status, response.statusText);
             globalConfig.loaded = true;
         }
     } catch (e) {
-        console.warn('[loadStaticConfig] Could not load /config.json:', e);
-        // Fallback: try to get from localStorage
-        const storedUrl = localStorage.getItem('api_base_url');
-        if (storedUrl) {
-            globalConfig.backendUrl = storedUrl;
-            console.log('[loadStaticConfig] Using backendUrl from localStorage:', storedUrl);
-        }
+        console.error('[loadStaticConfig] Could not load /config.json:', e);
         globalConfig.loaded = true; // Mark as loaded even if failed (to avoid infinite retries)
     }
 }
@@ -50,13 +36,8 @@ async function loadStaticConfig() {
 // Helper function to build API URL (modeagnostique)
 // Rendre buildApiUrl accessible globalement pour le fallback
 window.buildApiUrl = function buildApiUrl(endpoint) {
-    // Priorité 1: config.json (backendUrl) - si chargé
-    let baseUrl = globalConfig.backendUrl;
-    
-    // Priorité 2: localStorage (pour compatibilité ou si config.json pas encore chargé)
-    if (!baseUrl) {
-        baseUrl = localStorage.getItem('api_base_url');
-    }
+    // Utilise uniquement config.json (backendUrl)
+    const baseUrl = globalConfig.backendUrl;
     
     // Si une URL de base est définie (worker distant), on l'utilise
     if (baseUrl) {

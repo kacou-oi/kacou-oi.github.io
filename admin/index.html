@@ -148,7 +148,7 @@
                 if (res.ok) {
                     localStorage.setItem('websuite_auth', password);
                     // Ensure api_base_url is cleared so core/admin.js uses relative paths
-                    localStorage.removeItem('api_base_url');
+                    // Plus besoin de localStorage, tout est dans config.json maintenant
                     window.location.href = '/admin/dashboard.html';
                 } else {
                     errorDiv.textContent = "Identifiants incorrects.";
